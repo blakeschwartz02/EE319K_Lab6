@@ -22,7 +22,11 @@
 // Output: none
 void Sound_Init(void){
   // write this
-  
+	DAC_Init();
+	
+  NVIC_ST_CTRL_R = 0;
+	NVIC_ST_CURRENT_R = 0;
+	NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x20000000;
 }
 
 // **************Sound_Start*********************
@@ -37,7 +41,13 @@ void Sound_Init(void){
 // Output: none
 void Sound_Start(uint32_t period){
   // write this
-
+	if(period == 0){
+		NVIC_ST_RELOAD_R = 0;
+		return;
+	}
+	period /= 32;
+	NVIC_ST_RELOAD_R = period-1; 
+	NVIC_ST_CTRL_R = 7; 
 }
 
 // **************Sound_Voice*********************
@@ -68,11 +78,16 @@ const uint8_t *Sound_GetVoice(void){
   return 0;
 }
 
+	uint8_t sinWave[32] = {8,9,10,12,13,14,14,15,15,15,14,14,13,12,10,9,8,6,5,3,2,1,1,0,0,0,1,1,2,3,5,6};
+	uint8_t soundIndex = 0;
+			
 // Interrupt service routine
 // Executed every 12.5ns*(period)
 void SysTick_Handler(void){
     // write this
-
+	soundIndex ++;
+	soundIndex &= 0x01F;
+	DAC_Out(sinWave[soundIndex]);
 }
 
 
