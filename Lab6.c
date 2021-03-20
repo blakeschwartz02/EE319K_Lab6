@@ -62,6 +62,7 @@ int staticmain(void){   uint32_t last,now;
 	}
 }
 */
+/*
 int main(void){ uint32_t data; // 0 to 15 DAC output
   TExaS_Init(SW_PIN_PE3210,DAC_PIN_PB3210,ScopeOn);
   DAC_Init();
@@ -70,10 +71,10 @@ int main(void){ uint32_t data; // 0 to 15 DAC output
     data = 0x0F&(data+1); // 0,1,2...,14,15,0,1,2,...
   }
 }
-
+*/
 
 //**************Lab 6 solution below*******************
-/*
+
 int main(void){      
   TExaS_Init(SW_PIN_PE3210,DAC_PIN_PB3210,ScopeOn);    // bus clock at 80 MHz
   Key_Init();
@@ -82,8 +83,21 @@ int main(void){
   // other initialization
   EnableInterrupts();
   while(1){ 
+		uint8_t btns = Key_In();
+		if(btns == 1){
+			
+		}
+		else if(btns < 4){
+			
+		}
+		else if(btns < 8){
+			
+		}
+		else{
+			
+		}
   }           
 }
-*/
+
 
 
